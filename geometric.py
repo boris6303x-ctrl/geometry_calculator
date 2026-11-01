@@ -1,4 +1,7 @@
 import math
+import turtle
+
+CENTIMETER = 37.795
 
 class Shape:
     def __init__(self, name, l, w):
@@ -24,6 +27,18 @@ class Shape:
 
     def info(self):
         print(f"Name: {self.name}\nLength: {self.l}\nWidth: {self.w}")
+
+    def draw(self):
+        index = 0
+        for _ in range(2):
+            turtle.write(self.name[index])
+            index += 1
+            turtle.forward(self.l*CENTIMETER)
+            turtle.write(self.name[index])
+            index += 1
+            turtle.right(90)
+            turtle.forward(self.w*CENTIMETER)
+            turtle.right(90)
 
 class Rectangle(Shape):
     def __init__(self, l, w, name="Rectangle"):
@@ -65,6 +80,16 @@ class Circle(Shape):
 
     def info(self):
             print(f"Name: {self.name}\nRadius: {self.r}")
+
+    def draw(self):
+        turtle.dot(5)
+        turtle.write(f"O_{self.name}")
+        turtle.penup()
+        turtle.forward(self.r*CENTIMETER)
+        turtle.pendown()
+        turtle.write(self.name)
+        turtle.left(90)
+        turtle.circle(self.r*CENTIMETER)
 
 class Square(Rectangle):
     def __init__(self, s, name="Square"):
@@ -189,46 +214,49 @@ class RegularHexagon(Shape):
             print(f"Name: {self.name}\nSide: {self.s}\nApothem: {self.a}")
 
 def main():
-    rc = Rectangle(5, 3, "ABCD")
+    # rc = Rectangle(5, 3, "ABCD")
     c = Circle(6, "c")
-    s = Square(5, "EFGH")
-    it = IsoscelesTriangle(6, 4, 5, "IJK")
-    rt = RightTriangle(3, 4, 5, "LMN")
-    rh = Rhombus(7, 5, "OPQR")
-    h = RegularHexagon(8, (8*math.sqrt(3))/2, "RSTUVW")
+    # s = Square(5, "EFGH")
+    # it = IsoscelesTriangle(6, 4, 5, "IJK")
+    # rt = RightTriangle(3, 4, 5, "LMN")
+    # rh = Rhombus(7, 5, "OPQR")
+    # h = RegularHexagon(8, (8*math.sqrt(3))/2, "RSTUVW")
 
-    try:
-        print("Shape information:")
-        rc.info()
-        c.info()
-        s.info()
-        it.info()
-        rt.info()
-        rh.info()
-        h.info()
-        print("-" * 20)
-        print("Areas:")
-        print(rc.area())
-        print(c.area())
-        print(s.area())
-        print(it.area())
-        print(rt.area())
-        print(rt.heron_area())
-        print(rh.area())
-        print(h.area())
-        print("-" * 20)
-        print("Perimeters:")
-        print(rc.perimeter())
-        print(c.circumference())
-        print(s.perimeter())
-        print(it.perimeter())
-        print(it.root_perimeter())
-        print(rt.pyth_perimeter())
-        print(rt.perimeter())
-        print(rh.perimeter())
-        print(h.perimeter())
-    except Exception as e:
-        print(f"An error occured: {type(e).__name__}: {e}")
+    # try:
+    #     print("Shape information:")
+    #     rc.info()
+    #     c.info()
+    #     s.info()
+    #     it.info()
+    #     rt.info()
+    #     rh.info()
+    #     h.info()
+    #     print("-" * 20)
+    #     print("Areas:")
+    #     print(rc.area())
+    #     print(c.area())
+    #     print(s.area())
+    #     print(it.area())
+    #     print(rt.area())
+    #     print(rt.heron_area())
+    #     print(rh.area())
+    #     print(h.area())
+    #     print("-" * 20)
+    #     print("Perimeters:")
+    #     print(rc.perimeter())
+    #     print(c.circumference())
+    #     print(s.perimeter())
+    #     print(it.perimeter())
+    #     print(it.root_perimeter())
+    #     print(rt.pyth_perimeter())
+    #     print(rt.perimeter())
+    #     print(rh.perimeter())
+    #     print(h.perimeter())
+    # except Exception as e:
+    #     print(f"An error occured: {type(e).__name__}: {e}")
+    c.draw()
+    
+    turtle.done()
 
 if __name__ == "__main__":
     main()
