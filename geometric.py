@@ -11,17 +11,17 @@ class Shape:
 
     def area(self):
         if self.validation():
-            raise ValueError("input(s) must be not negative")
+            raise ValueError("input(s) must be greater than 0")
         else:
             return 0
 
     def validation(self):
-        if self.l < 0 or self.w < 0:
-            return False
+        if self.l <= 0 or self.w <= 0:
+            return True
 
     def perimeter(self):
         if self.validation():
-            raise ValueError("input(s) must be not negative")
+            raise ValueError("input(s) must be greater than 0")
         else:
             return 0
 
@@ -29,6 +29,11 @@ class Shape:
         print(f"Name: {self.name}\nLength: {self.l}\nWidth: {self.w}")
 
     def draw(self):
+        if self.validation():
+            turtle.color("red")
+            turtle.write("Draw error: could not draw shape because parameter(s) must be not less than 0", align="center")
+            turtle.color("black")
+            return
         index = 0
         for _ in range(2):
             turtle.write(self.name[index])
@@ -46,13 +51,13 @@ class Rectangle(Shape):
     
     def area(self):
         if self.validation():
-            raise ValueError("input(s) must be not negative")
+            raise ValueError("input(s) must be greater than 0")
         else:
             return self.l*self.w
 
     def perimeter(self):
         if self.validation():
-            raise ValueError("input(s) must be not negative")
+            raise ValueError("input(s) must be greater than 0")
         else:
             return (self.l+self.w)*2
 
@@ -63,25 +68,30 @@ class Circle(Shape):
 
     def area(self):
         if self.validation():
-            raise ValueError("radius must be not negative")
+            raise ValueError("radius must be greater than 0")
         return f"~{(math.pi*(self.r**2)):.2f}"
 
     def validation(self):
-            if self.r < 0:
-                return False
+        if self.r <= 0:
+            return True
 
     def perimeter(self):
         raise NameError("circles have no perimeter. Did you mean circumference()?")
 
     def circumference(self):
         if self.validation():
-            raise ValueError("radius must be not negative")
+            raise ValueError("radius must be greater than 0")
         return f"~{(2*math.pi*self.r):.2f}"
 
     def info(self):
             print(f"Name: {self.name}\nRadius: {self.r}")
 
     def draw(self):
+        if self.validation():
+            turtle.color("red")
+            turtle.write("Draw error: could not draw shape because parameter(s) must be not less than 0", align="center")
+            turtle.color("black")
+            return
         turtle.dot(5)
         turtle.write(f"O_{self.name}")
         turtle.penup()
@@ -106,22 +116,23 @@ class Triangle(Shape):
 
     def area(self):
         if self.validation():
-            raise ValueError("input must be not negative")
+            raise ValueError("input must be greater than 0")
         else:
             return 0.5*self.b*self.h
 
     def validation(self):
-        if self.b < 0 or self.h < 0:
-            return False
+        if self.b <= 0 or self.h <= 0:
+            return True
 
     def perimeter(self):
         if self.validation():
-            raise ValueError("input(s) must be not negative")
-        else:
-            return self.b+self.s1+self.s2
+            raise ValueError("input(s) must be greater than 0")
+        return self.b+self.s1+self.s2
 
     def root_perimeter(self):
-        if self.s1 != math.sqrt(self.h**2 + (self.b/2)**2):
+        if self.validation():
+            raise ValueError("input must be greater than 0")
+        elif self.s1 != math.sqrt(self.h**2 + (self.b/2)**2):
             raise ValueError("triangle side is not equal to sqrt(h**2 + (b/2)**2)")
         return f"{self.b + 2 * math.sqrt(self.h**2 + (self.b/2)**2):.0f}"
 
@@ -139,9 +150,9 @@ class RightTriangle(Triangle):
     
     def area(self):
         if self.validation():
-            raise ValueError("input must be not negative")
-        else:
-            return f"{self.b*self.h/2:.0f}"
+            raise ValueError("input must be greater than 0")
+        return f"{self.b*self.h/2:.0f}"
+    
 
     def perimeter(self):
         if self.s != math.hypot(self.b, self.h):
@@ -149,15 +160,39 @@ class RightTriangle(Triangle):
         return self.b+self.h+self.s
 
     def pyth_perimeter(self):
+        if self.validation():
+            raise ValueError("input must be greater than 0")
         perimeter = self.b + self.h + math.hypot(self.b, self.h)
         if perimeter == int(perimeter):
             return int(perimeter)
         return perimeter
 
+    def validation(self):
+        if self.b <= 0 or self.h <= 0:
+            return True
+
     def heron_area(self):
         # p is the semiperimeter - the perimeter divided by 2
+        if self.validation():
+            raise ValueError("input must be greater than 0")
         p = self.pyth_perimeter()/2
         return f"{math.sqrt(p * (p-self.b) * (p-self.h) * (p-math.hypot(self.b, self.h))):.0f}"
+
+    def draw(self):
+        if self.validation():
+            turtle.color("red")
+            turtle.write("Draw error: could not draw shape because parameter(s) must be not less than 0", align="center")
+            turtle.color("black")
+            return
+        index = 0
+        turtle.setheading(-90)
+        turtle.write(self.name[0])
+        turtle.forward(self.h*CENTIMETER)
+        turtle.write(self.name[1])
+        turtle.left(90)
+        turtle.forward(self.b*CENTIMETER)
+        turtle.write(self.name[2])
+        turtle.home()
 
 class Rhombus(Shape):
     def __init__(self, s, h=None, name="Rhombus"):
@@ -168,19 +203,18 @@ class Rhombus(Shape):
 
     def area(self):
         if self.validation():
-            raise ValueError("inputs must be not negative")
+            raise ValueError("inputs must be greater than 0")
         else:
             return self.s*self.h
 
     def validation(self):
-        if self.s < 0 or self.h < 0:
-            return False
+        if self.s <= 0 or self.h <= 0:
+            return True
 
     def perimeter(self):
         if self.validation():
-            raise ValueError("input must be not negative")
-        else:
-            return self.s*4
+            raise ValueError("input must be greater than 0")
+        return self.s*4
 
     def info(self):
             print(f"Name: {self.name}\nHeight: {self.h}\nSide: {self.s}")
@@ -194,19 +228,19 @@ class RegularHexagon(Shape):
 
     def area(self):
         if self.validation():
-            raise ValueError("input must be not negative")
+            raise ValueError("input must be greater than 0")
         elif self.a != (self.s * math.sqrt(3)) / 2:
             raise ValueError("hexagon apothem is not equal to (s * sqrt(3)) / 2")
         else:
             return f"~{(3*self.s*self.a):.2f}"
 
     def validation(self):
-        if self.s < 0 or self.a < 0:
-            return False
+        if self.s <= 0 or self.a <= 0:
+            return True
 
     def perimeter(self):
         if self.validation():
-            raise ValueError("input(s) must be not negative")
+            raise ValueError("input(s) must be greater than 0")
         else:
             return self.s*6
 
@@ -215,10 +249,10 @@ class RegularHexagon(Shape):
 
 def main():
     # rc = Rectangle(5, 3, "ABCD")
-    c = Circle(6, "c")
+    # c = Circle(6, "c")
     # s = Square(5, "EFGH")
     # it = IsoscelesTriangle(6, 4, 5, "IJK")
-    # rt = RightTriangle(3, 4, 5, "LMN")
+    rt = RightTriangle(3, 4, 5, "LMN")
     # rh = Rhombus(7, 5, "OPQR")
     # h = RegularHexagon(8, (8*math.sqrt(3))/2, "RSTUVW")
 
@@ -252,9 +286,9 @@ def main():
     #     print(rt.perimeter())
     #     print(rh.perimeter())
     #     print(h.perimeter())
+    rt.draw()
     # except Exception as e:
     #     print(f"An error occured: {type(e).__name__}: {e}")
-    c.draw()
     
     turtle.done()
 
