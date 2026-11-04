@@ -141,7 +141,7 @@ class Triangle(Shape):
 
     def draw(self):
         turtle.color("red")
-        turtle.write("Draw error: planar triangle is unknown because triangle type is not given", align="center")
+        turtle.write("Draw error: planar triangle is unknown because triangle type is not given\nIf you want to draw a triangle, use class IsoscelesTriangle() or RightTriangle().", align="center")
         turtle.color("black")
 
 class IsoscelesTriangle(Triangle):
@@ -324,15 +324,18 @@ class RegularHexagon(Shape):
             turtle.left(60)
 
 def main():
+    # Uncomment any class
     # rc = Rectangle(5, 3, "ABCD")
     # c = Circle(6, "c")
     # s = Square(5, "EFGH")
     # it = IsoscelesTriangle(6, 4, 5, "IJK")
     # rt = RightTriangle(3, 4, 5, "LMN")
     # rh = Rhombus(7, 6, "OPQR")
-    h = RegularHexagon(3, (3*math.sqrt(3))/2, "RSTUVW")
+    # h = RegularHexagon(3, (3*math.sqrt(3))/2, "RSTUVW")
 
     try:
+        print("=== Calculator Results ===")
+    # uncomment a line
     #     print("Shape information:")
     #     rc.info()
     #     c.info()
@@ -362,7 +365,6 @@ def main():
     #     print(rt.perimeter())
     #     print(rh.perimeter())
     #     print(h.perimeter())
-        h.draw()
     except Exception as e:
         print(f"An error occured: {type(e).__name__}: {e}")
     
